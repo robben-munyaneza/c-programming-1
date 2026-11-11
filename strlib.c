@@ -3,8 +3,8 @@
  *  Assignment: Your Own String Library
  *  Course:     Programming with C
  *
- *  Name:       [YOUR NAME]
- *  Student ID: [YOUR ID]
+ *  Name:       Munyaneza Robben
+ *  Student ID: 20251SEN284
  * ============================================================================
  *
  *  HOW TO COMPILE AND RUN
@@ -61,6 +61,43 @@
  *  Write each helper ABOVE the functions that use it.
  */
 
+/* Length of s: walk p to the '\0' and return how far it moved. */
+static size_t my_strlen(const char *s)
+{
+    const char *p = s;
+    while (*p != '\0')
+        p++;
+    return (size_t)(p - s);
+}
+
+/* 'A'..'Z' become 'a'..'z'; every other character is returned unchanged.
+ * In ASCII the gap 'a' - 'A' is 32 for every letter. */
+static char my_to_lower(char c)
+{
+    if (c >= 'A' && c <= 'Z')
+        return (char)(c + ('a' - 'A'));
+    return c;
+}
+
+/* 1 for space or tab, 0 for anything else (including '\n'). */
+static int is_blank(char c)
+{
+    return c == ' ' || c == '\t';
+}
+
+/* 1 if the whole needle appears starting exactly at p, otherwise 0.
+ * If p hits its '\0' before needle ends, then *p ('\0') differs from
+ * *needle (not '\0'), so we return 0 and never read past p's end. */
+static int matches_at(const char *p, const char *needle)
+{
+    while (*needle != '\0') {
+        if (*p != *needle)
+            return 0;
+        p++;
+        needle++;
+    }
+    return 1;
+}
 
 
 
@@ -77,20 +114,29 @@
  *   - You are returning a position inside s, not a copy of anything.
  *
  *  YOUR NOTES
- *   Approach:
+ *   Approach: walk p through s. At each position first ask "is this c?"
+ *     and only then "is this the end?". Return p itself (a position inside
+ *     s), not a copy.
  *
- *   Edge cases I handled:
+ *   Edge cases I handled: c == '\0' -> the c-check fires on the terminator,
+ *     so we return s + length. Empty s -> only the '\0' is checked. c not
+ *     present -> we reach '\0' and return NULL. Case matters ('H' != 'h').
  *
- *   How I tested it:
+ *   How I tested it: visible tests + main(): "hello" with 'l','h','z','H',
+ *     '\0', and "" with 'a' and '\0'.
  *
  */
 const char *str_find_char(const char *s, char c)
 {
-    (void)s;   /* remove these (void) lines once you use the parameters */
-    (void)c;
+    const char *p = s;
 
-    /* TODO */
-    return NULL;
+    for (;;) {
+        if (*p == c)        /* check c FIRST, so searching for '\0' works */
+            return p;
+        if (*p == '\0')     /* reached the end without finding c */
+            return NULL;
+        p++;
+    }
 }
 
 
@@ -108,18 +154,35 @@ const char *str_find_char(const char *s, char c)
  *     never goes before the start of the string.
  *
  *  YOUR NOTES
- *   Approach:
+ *   Approach: left starts at the first character, right at the LAST
+ *     character (s + len - 1, not the '\0'). Swap them, move them toward
+ *     each other, stop when they meet or cross (left >= right).
  *
- *   Edge cases I handled:
+ *   Edge cases I handled: "" and one-character strings return before
+ *     computing s + len - 1, so right never points before s. Odd length
+ *     ("abc"): pointers meet on the middle char, which stays put. Even
+ *     length ("abcd"): pointers cross after the last swap.
  *
- *   How I tested it:
+ *   How I tested it: "hello" -> "olleh", "ab" -> "ba", "a", "", "racecar".
  *
  */
 void str_reverse(char *s)
 {
-    (void)s;
+    size_t len = my_strlen(s);
 
-    /* TODO */
+    if (len < 2)            /* "" or one char: nothing to swap */
+        return;
+
+    char *left = s;
+    char *right = s + len - 1;
+
+    while (left < right) {
+        char tmp = *left;
+        *left = *right;
+        *right = tmp;
+        left++;
+        right--;
+    }
 }
 
 
@@ -140,20 +203,41 @@ void str_reverse(char *s)
  *     characters: 'a' - 'z' is -25, not -1.
  *
  *  YOUR NOTES
- *   Approach:
+ *   Approach: walk pa and pb together. Lowercase both characters (only
+ *     'A'..'Z' change) and compare; the first difference decides -1 or 1.
+ *     If the loop ends because a string ran out, decide by who ended.
  *
- *   Edge cases I handled:
+ *   Edge cases I handled: both empty -> 0. Prefix ("ab" vs "abc") -> the
+ *     shorter one is -1. Digits/symbols are not changed. Lowercase (not
+ *     uppercase) matters for "a_b" vs "aBb": '_' (95) < 'b' (98) -> -1.
+ *     Always returns exactly -1, 0 or 1, never a raw difference.
  *
- *   How I tested it:
+ *   How I tested it: "Hello"/"hello", "apple"/"Banana", "Zebra"/"apple",
+ *     "abc"/"ab", "AB"/"abc", ""/"", ""/"a", "123"/"123", "a_b"/"aBb".
  *
  */
 int str_compare_ci(const char *a, const char *b)
 {
-    (void)a;
-    (void)b;
+    const char *pa = a;
+    const char *pb = b;
 
-    /* TODO */
-    return 0;
+    while (*pa != '\0' && *pb != '\0') {
+        char ca = my_to_lower(*pa);
+        char cb = my_to_lower(*pb);
+        if (ca < cb)
+            return -1;
+        if (ca > cb)
+            return 1;
+        pa++;
+        pb++;
+    }
+
+    /* At least one string ended. */
+    if (*pa == '\0' && *pb == '\0')
+        return 0;           /* both ended together: equal */
+    if (*pa == '\0')
+        return -1;          /* a ended first: a is shorter, comes first */
+    return 1;               /* b ended first */
 }
 
 
@@ -178,21 +262,35 @@ int str_compare_ci(const char *a, const char *b)
  *     ("hello", size 4) before you write any code.
  *
  *  YOUR NOTES
- *   Approach:
+ *   Approach: measure src first (that is the return value). If size is 0,
+ *     stop. Otherwise copy while there is room (i < size - 1) AND src has
+ *     not ended, then write one '\0' at dst[i].
  *
- *   Edge cases I handled:
+ *   Edge cases I handled: size 0 -> nothing written, and we never compute
+ *     size - 1 (which would wrap to a huge number because size_t is
+ *     unsigned). size 1 -> only '\0' written. Exact fit ("abc", 4) and
+ *     off-by-one truncation ("abc", 3). Empty src -> dst is "". The highest
+ *     index ever written is i <= size - 1, and nothing after the '\0'.
  *
- *   How I tested it:
+ *   How I tested it: ("hello",10), ("hello",4) -> "hel" returns 5,
+ *     ("abc",4), ("abc",3), ("hello",1), ("hello",0), ("",10).
  *
  */
 size_t str_copy_bounded(char *dst, const char *src, size_t size)
 {
-    (void)dst;
-    (void)src;
-    (void)size;
+    size_t src_len = my_strlen(src);
 
-    /* TODO */
-    return 0;
+    if (size == 0)          /* no room at all: write nothing */
+        return src_len;
+
+    size_t i = 0;
+    while (i < size - 1 && src[i] != '\0') {
+        dst[i] = src[i];
+        i++;
+    }
+    dst[i] = '\0';          /* i <= size - 1, so this stays inside dst */
+
+    return src_len;         /* caller detects truncation: src_len >= size */
 }
 
 
@@ -214,20 +312,32 @@ size_t str_copy_bounded(char *dst, const char *src, size_t size)
  *     hay or needle must be const char * as well, or you'll get a warning.
  *
  *  YOUR NOTES
- *   Approach:
+ *   Approach: try every starting position in hay, one at a time. At each
+ *     one, matches_at() checks whether the whole needle matches there. On
+ *     a failed attempt we move start forward by ONE, never jump ahead.
  *
- *   Edge cases I handled:
+ *   Edge cases I handled: empty needle -> matches_at returns 1 at once, so
+ *     we return hay (also for hay ""). Needle longer than hay -> matches_at
+ *     fails when hay hits '\0'; we stop after trying the '\0' position, so
+ *     we never read past hay's end. Overlap: "aaab"/"aab" fails at index 0
+ *     and succeeds at index 1. Case matters.
  *
- *   How I tested it:
+ *   How I tested it: "hello world" with "world","o","hello world","World";
+ *     "abc"/"abcd"; "mississippi"/"issip" -> 4; "aaab"/"aab" -> 1;
+ *     "abc"/""; ""/""; ""/"a".
  *
  */
 const char *str_find_sub(const char *hay, const char *needle)
 {
-    (void)hay;
-    (void)needle;
+    const char *start = hay;
 
-    /* TODO */
-    return NULL;
+    for (;;) {
+        if (matches_at(start, needle))
+            return start;
+        if (*start == '\0')     /* tried every position, including the end */
+            return NULL;
+        start++;
+    }
 }
 
 
@@ -249,19 +359,49 @@ const char *str_find_sub(const char *hay, const char *needle)
  *   - The new length is how far the write pointer moved.
  *
  *  YOUR NOTES
- *   Approach:
+ *   Approach: two pointers into the same array. read visits every char,
+ *     write marks where the next kept char goes. Skip leading blanks. Then
+ *     copy ordinary chars; when we hit a run of blanks, skip the whole run
+ *     and write ONE ' ' only if more text follows (not if we hit '\0').
+ *     Finish with '\0' at write. New length = write - s.
  *
- *   Edge cases I handled:
+ *   Why write never passes read: every kept char moves both by one, and a
+ *     blank run of length >= 1 is replaced by at most one ' ', so write
+ *     only ever falls behind.
  *
- *   How I tested it:
+ *   Edge cases I handled: only blanks ("   ", " \t ") -> "". Empty "" ->
+ *     "". Trailing blanks dropped. Tabs count as blanks, '\n' does NOT
+ *     ("a  \n  b" -> "a \n b").
+ *
+ *   How I tested it: "  hello   world  " -> 11, "a\t\tb" -> 3, "one two",
+ *     "   ", "", " \t a \t ", "a  \n  b" -> 5.
  *
  */
 size_t str_squeeze(char *s)
 {
-    (void)s;
+    char *read = s;
+    char *write = s;
 
-    /* TODO */
-    return 0;
+    while (is_blank(*read))         /* drop leading whitespace */
+        read++;
+
+    while (*read != '\0') {
+        if (is_blank(*read)) {
+            while (is_blank(*read)) /* skip the whole run */
+                read++;
+            if (*read != '\0') {    /* text follows: keep one space */
+                *write = ' ';
+                write++;
+            }                       /* else: trailing run, drop it */
+        } else {
+            *write = *read;
+            write++;
+            read++;
+        }
+    }
+    *write = '\0';
+
+    return (size_t)(write - s);
 }
 
 
@@ -287,22 +427,44 @@ size_t str_squeeze(char *s)
  *     It has zero delimiters, so how many fields?
  *
  *  YOUR NOTES
- *   Approach:
+ *   Approach: field_start remembers where the current field begins. Walk p
+ *     through s. At each delim: record field_start (if there is room),
+ *     count it, replace the delim with '\0', and the next field starts at
+ *     p + 1. After the loop, the last field (never followed by a delim) is
+ *     recorded and counted the same way.
  *
- *   Edge cases I handled:
+ *   Edge cases I handled: k delimiters always give k + 1 fields. Empty
+ *     fields ("a,,b", ",a,") are counted and stored. "" -> 1 field "".
+ *     More fields than max_fields -> every delim is still replaced, only
+ *     the first max_fields pointers are stored, and the full count is
+ *     returned. max_fields 0 -> fields is never touched. Every write to
+ *     fields[] is guarded by count < max_fields.
  *
- *   How I tested it:
+ *   How I tested it: "red,green,blue", "a,,b", ",a,", "w,x,y,z" with max 2,
+ *     "no delimiters", "", "a,b" with max 0.
  *
  */
 int str_split(char *s, char delim, char *fields[], int max_fields)
 {
-    (void)s;
-    (void)delim;
-    (void)fields;
-    (void)max_fields;
+    int count = 0;
+    char *field_start = s;
 
-    /* TODO */
-    return 0;
+    for (char *p = s; *p != '\0'; p++) {
+        if (*p == delim) {
+            if (count < max_fields)
+                fields[count] = field_start;
+            count++;
+            *p = '\0';              /* cut the string here */
+            field_start = p + 1;    /* next field begins after the cut */
+        }
+    }
+
+    /* The last field ends at the original '\0'. */
+    if (count < max_fields)
+        fields[count] = field_start;
+    count++;
+
+    return count;
 }
 
 
@@ -358,6 +520,55 @@ int main(void)
     printf("split: returned %d (expected 3)\n", count);
     for (int i = 0; i < count && i < 5; i++)
         printf("  fields[%d] = [%s]\n", i, fields[i]);
+
+    /* ---- extra edge cases from the README ---- */
+    printf("\n--- edge cases ---\n");
+
+    printf("find_char '\\0' in \"hello\": offset %d (expected 5)\n",
+           (int)(str_find_char(word, '\0') - word));
+    printf("find_char 'H' in \"hello\": %s (expected NULL)\n",
+           str_find_char(word, 'H') == NULL ? "NULL" : "found");
+    printf("find_char 'a' in \"\": %s (expected NULL)\n",
+           str_find_char("", 'a') == NULL ? "NULL" : "found");
+
+    char r1[] = "";   str_reverse(r1);
+    char r2[] = "a";  str_reverse(r2);
+    char r3[] = "ab"; str_reverse(r3);
+    printf("reverse: [%s] [%s] [%s] (expected [] [a] [ba])\n", r1, r2, r3);
+
+    printf("compare_ci: %d %d %d %d (expected 0 1 -1 -1)\n",
+           str_compare_ci("", ""), str_compare_ci("abc", "ab"),
+           str_compare_ci("", "a"), str_compare_ci("a_b", "aBb"));
+
+    char d10[10] = "xxxxxxxxx";
+    n = str_copy_bounded(d10, "abc", 3);
+    printf("copy_bounded(\"abc\", 3): returned %d, dst \"%s\" (expected 3, \"ab\")\n",
+           (int)n, d10);
+    n = str_copy_bounded(d10, "hello", 0);
+    printf("copy_bounded(size 0): returned %d, dst \"%s\" (expected 5, \"ab\" untouched)\n",
+           (int)n, d10);
+
+    const char *m = "mississippi";
+    printf("find_sub: %d (expected 4), empty needle %s, \"\" in \"\" %s, \"a\" in \"\" %s\n",
+           (int)(str_find_sub(m, "issip") - m),
+           str_find_sub("abc", "") != NULL ? "found" : "NULL",
+           str_find_sub("", "") != NULL ? "found" : "NULL",
+           str_find_sub("", "a") == NULL ? "NULL" : "found");
+
+    char q1[] = "   ";
+    char q2[] = " \t a \t ";
+    char q3[] = "a  \n  b";
+    size_t l1 = str_squeeze(q1), l2 = str_squeeze(q2), l3 = str_squeeze(q3);
+    printf("squeeze: %d [%s], %d [%s], %d (expected 0 [], 1 [a], 5)\n",
+           (int)l1, q1, (int)l2, q2, (int)l3);
+
+    char s1[] = ",a,";
+    char s2[] = "";
+    char s3[] = "w,x,y,z";
+    char *f2[2];
+    printf("split: %d %d %d (expected 3 1 4)\n",
+           str_split(s1, ',', fields, 5), str_split(s2, ',', fields, 5),
+           str_split(s3, ',', f2, 2));
 
     return 0;
 }
