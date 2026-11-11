@@ -1,0 +1,6 @@
+strlib
+strlib.exe
+*.o
+*.zip
+.DS_Store
+__pycache__/

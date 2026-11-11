@@ -1,0 +1,1707 @@
+{
+  "assignment_id": "strlib",
+  "executable": "strlib",
+  "required": [
+    "strlib.c"
+  ],
+  "zip_name": "{assignment_id}_{student_id}.zip",
+  "form_url": "https://forms.gle/i3UZzr5AutEGhqN2A",
+  "compile": {
+    "compiler": "gcc",
+    "flags": [
+      "-std=c11",
+      "-Wall",
+      "-Wextra",
+      "-g",
+      "-DAUTOGRADER",
+      "-Werror"
+    ],
+    "sources": [
+      "driver.c"
+    ],
+    "ldlibs": []
+  },
+  "hidden_count": 0,
+  "tests": [
+    {
+      "id": "fc_middle",
+      "description": "str_find_char: finds the first of two repeated letters",
+      "args": [],
+      "stdin": "find_char\nhello\nl\n",
+      "expected": "str_find_char(\"hello\", 'l') -> offset 2\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fc_first",
+      "description": "str_find_char: finds a match at index 0",
+      "args": [],
+      "stdin": "find_char\nhello\nh\n",
+      "expected": "str_find_char(\"hello\", 'h') -> offset 0\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fc_missing",
+      "description": "str_find_char: returns NULL when the character is absent",
+      "args": [],
+      "stdin": "find_char\nhello\nz\n",
+      "expected": "str_find_char(\"hello\", 'z') -> NULL\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fc_case",
+      "description": "str_find_char: is case-sensitive",
+      "args": [],
+      "stdin": "find_char\nhello\nH\n",
+      "expected": "str_find_char(\"hello\", 'H') -> NULL\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fc_terminator",
+      "description": "str_find_char: searching for '\\0' returns the terminator",
+      "args": [],
+      "stdin": "find_char\nhello\n\\0\n",
+      "expected": "str_find_char(\"hello\", '\\0') -> offset 5\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fc_empty",
+      "description": "str_find_char: returns NULL on the empty string",
+      "args": [],
+      "stdin": "find_char\n\na\n",
+      "expected": "str_find_char(\"\", 'a') -> NULL\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fc_empty_terminator",
+      "description": "str_find_char: finds '\\0' in the empty string",
+      "args": [],
+      "stdin": "find_char\n\n\\0\n",
+      "expected": "str_find_char(\"\", '\\0') -> offset 0\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fc_last",
+      "description": "str_find_char: finds a match at the last character",
+      "args": [],
+      "stdin": "find_char\nhello\no\n",
+      "expected": "str_find_char(\"hello\", 'o') -> offset 4\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fc_first_of_many",
+      "description": "str_find_char: returns the FIRST of several matches",
+      "args": [],
+      "stdin": "find_char\nbanana\na\n",
+      "expected": "str_find_char(\"banana\", 'a') -> offset 1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fc_space",
+      "description": "str_find_char: can search for a space",
+      "args": [],
+      "stdin": "find_char\na b\n \n",
+      "expected": "str_find_char(\"a b\", ' ') -> offset 1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fc_tab",
+      "description": "str_find_char: can search for a tab",
+      "args": [],
+      "stdin": "find_char\na\\tb\n\\t\n",
+      "expected": "str_find_char(\"a\\tb\", '\\t') -> offset 1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fc_long",
+      "description": "str_find_char: finds a match at the end of a long string",
+      "args": [],
+      "stdin": "find_char\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxy\ny\n",
+      "expected": "str_find_char(\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxy\", 'y') -> offset 300\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fc_long_missing",
+      "description": "str_find_char: returns NULL after scanning a long string",
+      "args": [],
+      "stdin": "find_char\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\ny\n",
+      "expected": "str_find_char(\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\", 'y') -> NULL\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "rev_word",
+      "description": "str_reverse: reverses a word",
+      "args": [],
+      "stdin": "reverse\nhello\n",
+      "expected": "str_reverse(\"hello\") -> \"olleh\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "rev_spaces",
+      "description": "str_reverse: reverses a string containing a space",
+      "args": [],
+      "stdin": "reverse\nab cd\n",
+      "expected": "str_reverse(\"ab cd\") -> \"dc ba\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "rev_two",
+      "description": "str_reverse: reverses a two-character string",
+      "args": [],
+      "stdin": "reverse\nab\n",
+      "expected": "str_reverse(\"ab\") -> \"ba\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "rev_one",
+      "description": "str_reverse: leaves a one-character string unchanged",
+      "args": [],
+      "stdin": "reverse\na\n",
+      "expected": "str_reverse(\"a\") -> \"a\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "rev_empty",
+      "description": "str_reverse: leaves the empty string unchanged",
+      "args": [],
+      "stdin": "reverse\n\n",
+      "expected": "str_reverse(\"\") -> \"\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "rev_palindrome",
+      "description": "str_reverse: leaves a palindrome unchanged",
+      "args": [],
+      "stdin": "reverse\nracecar\n",
+      "expected": "str_reverse(\"racecar\") -> \"racecar\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "reverse_odd",
+      "description": "str_reverse: reverses an odd-length string",
+      "args": [],
+      "stdin": "reverse\nabcde\n",
+      "expected": "str_reverse(\"abcde\") -> \"edcba\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "rev_even",
+      "description": "str_reverse: reverses an even-length string",
+      "args": [],
+      "stdin": "reverse\nabcdefgh\n",
+      "expected": "str_reverse(\"abcdefgh\") -> \"hgfedcba\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "rev_repeated",
+      "description": "str_reverse: reverses a string with repeated characters",
+      "args": [],
+      "stdin": "reverse\naab\n",
+      "expected": "str_reverse(\"aab\") -> \"baa\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "rev_whitespace",
+      "description": "str_reverse: moves tabs and newlines like any other character",
+      "args": [],
+      "stdin": "reverse\na\\tb\\nc\n",
+      "expected": "str_reverse(\"a\\tb\\nc\") -> \"c\\nb\\ta\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "rev_long",
+      "description": "str_reverse: reverses a long string",
+      "args": [],
+      "stdin": "reverse\nabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklm\n",
+      "expected": "str_reverse(\"abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklm\") -> \"mlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcbazyxwvutsrqponmlkjihgfedcba\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_equal_case",
+      "description": "str_compare_ci: strings equal apart from case",
+      "args": [],
+      "stdin": "compare_ci\nHello\nhello\n",
+      "expected": "str_compare_ci(\"Hello\", \"hello\") -> 0\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_less",
+      "description": "str_compare_ci: first string comes first",
+      "args": [],
+      "stdin": "compare_ci\napple\nBanana\n",
+      "expected": "str_compare_ci(\"apple\", \"Banana\") -> -1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_greater",
+      "description": "str_compare_ci: first string comes after",
+      "args": [],
+      "stdin": "compare_ci\nZebra\napple\n",
+      "expected": "str_compare_ci(\"Zebra\", \"apple\") -> 1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_longer_after",
+      "description": "str_compare_ci: a longer string comes after its prefix",
+      "args": [],
+      "stdin": "compare_ci\nabc\nab\n",
+      "expected": "str_compare_ci(\"abc\", \"ab\") -> 1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_prefix_first",
+      "description": "str_compare_ci: a prefix comes first (mixed case)",
+      "args": [],
+      "stdin": "compare_ci\nAB\nabc\n",
+      "expected": "str_compare_ci(\"AB\", \"abc\") -> -1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_both_empty",
+      "description": "str_compare_ci: two empty strings are equal",
+      "args": [],
+      "stdin": "compare_ci\n\n\n",
+      "expected": "str_compare_ci(\"\", \"\") -> 0\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_empty_first",
+      "description": "str_compare_ci: the empty string comes first",
+      "args": [],
+      "stdin": "compare_ci\n\na\n",
+      "expected": "str_compare_ci(\"\", \"a\") -> -1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_digits",
+      "description": "str_compare_ci: digits are compared unchanged",
+      "args": [],
+      "stdin": "compare_ci\n123\n123\n",
+      "expected": "str_compare_ci(\"123\", \"123\") -> 0\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_underscore",
+      "description": "str_compare_ci: converts to lowercase, not uppercase ('_' vs 'B')",
+      "args": [],
+      "stdin": "compare_ci\na_b\naBb\n",
+      "expected": "str_compare_ci(\"a_b\", \"aBb\") -> -1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_empty_second",
+      "description": "str_compare_ci: a non-empty string comes after the empty string",
+      "args": [],
+      "stdin": "compare_ci\na\n\n",
+      "expected": "str_compare_ci(\"a\", \"\") -> 1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_underscore_swapped",
+      "description": "str_compare_ci: the lowercase rule with the arguments swapped",
+      "args": [],
+      "stdin": "compare_ci\naBb\na_b\n",
+      "expected": "str_compare_ci(\"aBb\", \"a_b\") -> 1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_bracket",
+      "description": "str_compare_ci: converts to lowercase ('[' lies between 'Z' and 'a')",
+      "args": [],
+      "stdin": "compare_ci\n[\nA\n",
+      "expected": "str_compare_ci(\"[\", \"A\") -> -1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_exact_minus_one",
+      "description": "str_compare_ci: returns exactly -1, not a difference",
+      "args": [],
+      "stdin": "compare_ci\na\nz\n",
+      "expected": "str_compare_ci(\"a\", \"z\") -> -1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_exact_plus_one",
+      "description": "str_compare_ci: returns exactly 1, not a difference",
+      "args": [],
+      "stdin": "compare_ci\nz\nA\n",
+      "expected": "str_compare_ci(\"z\", \"A\") -> 1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_mixed_equal",
+      "description": "str_compare_ci: longer strings equal apart from case",
+      "args": [],
+      "stdin": "compare_ci\nHeLLo WoRLD\nhEllO wOrld\n",
+      "expected": "str_compare_ci(\"HeLLo WoRLD\", \"hEllO wOrld\") -> 0\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_late_difference",
+      "description": "str_compare_ci: the first difference comes late",
+      "args": [],
+      "stdin": "compare_ci\nabcdefgX\nABCDEFGy\n",
+      "expected": "str_compare_ci(\"abcdefgX\", \"ABCDEFGy\") -> -1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_punctuation",
+      "description": "str_compare_ci: non-letters are compared by their ASCII values",
+      "args": [],
+      "stdin": "compare_ci\na-b\na_b\n",
+      "expected": "str_compare_ci(\"a-b\", \"a_b\") -> -1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "cmp_tab_space",
+      "description": "str_compare_ci: a tab comes before a space",
+      "args": [],
+      "stdin": "compare_ci\na\\tb\na b\n",
+      "expected": "str_compare_ci(\"a\\tb\", \"a b\") -> -1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "copy_fits",
+      "description": "str_copy_bounded: copies a string that fits",
+      "args": [],
+      "stdin": "copy_bounded\nhello\n10\n",
+      "expected": "str_copy_bounded(dst, \"hello\", 10) -> returns 5\ndst (10 bytes): \"hello\\0####\"\nbytes after dst: \"########\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "copy_truncate",
+      "description": "str_copy_bounded: truncates and still writes the terminator",
+      "args": [],
+      "stdin": "copy_bounded\nhello\n4\n",
+      "expected": "str_copy_bounded(dst, \"hello\", 4) -> returns 5\ndst (4 bytes): \"hel\\0\"\nbytes after dst: \"########\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "copy_just_fits",
+      "description": "str_copy_bounded: string plus terminator exactly fill dst",
+      "args": [],
+      "stdin": "copy_bounded\nabc\n4\n",
+      "expected": "str_copy_bounded(dst, \"abc\", 4) -> returns 3\ndst (4 bytes): \"abc\\0\"\nbytes after dst: \"########\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "copy_short_by_one",
+      "description": "str_copy_bounded: truncated by exactly one character",
+      "args": [],
+      "stdin": "copy_bounded\nabc\n3\n",
+      "expected": "str_copy_bounded(dst, \"abc\", 3) -> returns 3\ndst (3 bytes): \"ab\\0\"\nbytes after dst: \"########\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "copy_size_one",
+      "description": "str_copy_bounded: size 1 leaves room only for '\\0'",
+      "args": [],
+      "stdin": "copy_bounded\nhello\n1\n",
+      "expected": "str_copy_bounded(dst, \"hello\", 1) -> returns 5\ndst (1 bytes): \"\\0\"\nbytes after dst: \"########\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "copy_size_zero",
+      "description": "str_copy_bounded: size 0 writes nothing",
+      "args": [],
+      "stdin": "copy_bounded\nhello\n0\n",
+      "expected": "str_copy_bounded(dst, \"hello\", 0) -> returns 5\ndst (0 bytes): \"\"\nbytes after dst: \"########\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "copy_empty_src",
+      "description": "str_copy_bounded: copies the empty string",
+      "args": [],
+      "stdin": "copy_bounded\n\n10\n",
+      "expected": "str_copy_bounded(dst, \"\", 10) -> returns 0\ndst (10 bytes): \"\\0#########\"\nbytes after dst: \"########\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "copy_empty_size_one",
+      "description": "str_copy_bounded: empty source, size 1",
+      "args": [],
+      "stdin": "copy_bounded\n\n1\n",
+      "expected": "str_copy_bounded(dst, \"\", 1) -> returns 0\ndst (1 bytes): \"\\0\"\nbytes after dst: \"########\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "copy_empty_size_zero",
+      "description": "str_copy_bounded: empty source, size 0",
+      "args": [],
+      "stdin": "copy_bounded\n\n0\n",
+      "expected": "str_copy_bounded(dst, \"\", 0) -> returns 0\ndst (0 bytes): \"\"\nbytes after dst: \"########\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "copy_size_two",
+      "description": "str_copy_bounded: size 2 copies one character",
+      "args": [],
+      "stdin": "copy_bounded\nxyz\n2\n",
+      "expected": "str_copy_bounded(dst, \"xyz\", 2) -> returns 3\ndst (2 bytes): \"x\\0\"\nbytes after dst: \"########\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "copy_whitespace",
+      "description": "str_copy_bounded: copies spaces and tabs unchanged",
+      "args": [],
+      "stdin": "copy_bounded\na b\\tc\n6\n",
+      "expected": "str_copy_bounded(dst, \"a b\\tc\", 6) -> returns 5\ndst (6 bytes): \"a b\\tc\\0\"\nbytes after dst: \"########\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "copy_long_fits",
+      "description": "str_copy_bounded: a long string that exactly fits",
+      "args": [],
+      "stdin": "copy_bounded\nqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq\n101\n",
+      "expected": "str_copy_bounded(dst, \"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq\", 101) -> returns 100\ndst (101 bytes): \"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq\\0\"\nbytes after dst: \"########\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "copy_long_truncated",
+      "description": "str_copy_bounded: a long string truncated in the middle",
+      "args": [],
+      "stdin": "copy_bounded\nABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUV\n50\n",
+      "expected": "str_copy_bounded(dst, \"ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUV\", 50) -> returns 100\ndst (50 bytes): \"ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVW\\0\"\nbytes after dst: \"########\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_word",
+      "description": "str_find_sub: finds a word in the middle",
+      "args": [],
+      "stdin": "find_sub\nhello world\nworld\n",
+      "expected": "str_find_sub(\"hello world\", \"world\") -> offset 6\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_first_o",
+      "description": "str_find_sub: returns the first of several matches",
+      "args": [],
+      "stdin": "find_sub\nhello world\no\n",
+      "expected": "str_find_sub(\"hello world\", \"o\") -> offset 4\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_whole",
+      "description": "str_find_sub: the whole string matches itself",
+      "args": [],
+      "stdin": "find_sub\nhello world\nhello world\n",
+      "expected": "str_find_sub(\"hello world\", \"hello world\") -> offset 0\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_case",
+      "description": "str_find_sub: is case-sensitive",
+      "args": [],
+      "stdin": "find_sub\nhello world\nWorld\n",
+      "expected": "str_find_sub(\"hello world\", \"World\") -> NULL\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_needle_longer",
+      "description": "str_find_sub: a needle longer than hay is not found",
+      "args": [],
+      "stdin": "find_sub\nabc\nabcd\n",
+      "expected": "str_find_sub(\"abc\", \"abcd\") -> NULL\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_mississippi",
+      "description": "str_find_sub: recovers from an earlier partial match",
+      "args": [],
+      "stdin": "find_sub\nmississippi\nissip\n",
+      "expected": "str_find_sub(\"mississippi\", \"issip\") -> offset 4\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "find_sub_overlap",
+      "description": "str_find_sub: the real match overlaps a failed one",
+      "args": [],
+      "stdin": "find_sub\naaab\naab\n",
+      "expected": "str_find_sub(\"aaab\", \"aab\") -> offset 1\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_empty_needle",
+      "description": "str_find_sub: an empty needle is found at the start",
+      "args": [],
+      "stdin": "find_sub\nabc\n\n",
+      "expected": "str_find_sub(\"abc\", \"\") -> offset 0\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_both_empty",
+      "description": "str_find_sub: an empty needle in an empty hay",
+      "args": [],
+      "stdin": "find_sub\n\n\n",
+      "expected": "str_find_sub(\"\", \"\") -> offset 0\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_empty_hay",
+      "description": "str_find_sub: nothing is found in an empty hay",
+      "args": [],
+      "stdin": "find_sub\n\na\n",
+      "expected": "str_find_sub(\"\", \"a\") -> NULL\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_at_end",
+      "description": "str_find_sub: a match at the very end",
+      "args": [],
+      "stdin": "find_sub\nhello world\nd\n",
+      "expected": "str_find_sub(\"hello world\", \"d\") -> offset 10\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_partial_at_end",
+      "description": "str_find_sub: a partial match that runs into the end of hay",
+      "args": [],
+      "stdin": "find_sub\nabcab\nabd\n",
+      "expected": "str_find_sub(\"abcab\", \"abd\") -> NULL\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_runs_off",
+      "description": "str_find_sub: needle is a longer run of the same letter",
+      "args": [],
+      "stdin": "find_sub\naaa\naaaa\n",
+      "expected": "str_find_sub(\"aaa\", \"aaaa\") -> NULL\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_repeated_prefix",
+      "description": "str_find_sub: a repeated prefix before the match",
+      "args": [],
+      "stdin": "find_sub\nabababc\nababc\n",
+      "expected": "str_find_sub(\"abababc\", \"ababc\") -> offset 2\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_single_missing",
+      "description": "str_find_sub: a one-character needle that is absent",
+      "args": [],
+      "stdin": "find_sub\nabc\nz\n",
+      "expected": "str_find_sub(\"abc\", \"z\") -> NULL\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_single_same",
+      "description": "str_find_sub: one-character hay and needle, equal",
+      "args": [],
+      "stdin": "find_sub\na\na\n",
+      "expected": "str_find_sub(\"a\", \"a\") -> offset 0\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_whitespace",
+      "description": "str_find_sub: needle containing a tab",
+      "args": [],
+      "stdin": "find_sub\na b\\tc\nb\\tc\n",
+      "expected": "str_find_sub(\"a b\\tc\", \"b\\tc\") -> offset 2\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "fs_long",
+      "description": "str_find_sub: many near-matches before the real one",
+      "args": [],
+      "stdin": "find_sub\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab\naaaaaaaaaab\n",
+      "expected": "str_find_sub(\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab\", \"aaaaaaaaaab\") -> offset 290\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "squeeze_runs",
+      "description": "str_squeeze: collapses runs and trims both ends",
+      "args": [],
+      "stdin": "squeeze\n  hello   world  \n",
+      "expected": "str_squeeze(\"  hello   world  \") -> returns 11\ns is now: \"hello world\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "sq_tabs",
+      "description": "str_squeeze: a run of tabs becomes one space",
+      "args": [],
+      "stdin": "squeeze\na\\t\\tb\n",
+      "expected": "str_squeeze(\"a\\t\\tb\") -> returns 3\ns is now: \"a b\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "sq_unchanged",
+      "description": "str_squeeze: an already-clean string is unchanged",
+      "args": [],
+      "stdin": "squeeze\none two\n",
+      "expected": "str_squeeze(\"one two\") -> returns 7\ns is now: \"one two\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "sq_spaces_only",
+      "description": "str_squeeze: only spaces becomes empty",
+      "args": [],
+      "stdin": "squeeze\n   \n",
+      "expected": "str_squeeze(\"   \") -> returns 0\ns is now: \"\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "sq_empty",
+      "description": "str_squeeze: the empty string stays empty",
+      "args": [],
+      "stdin": "squeeze\n\n",
+      "expected": "str_squeeze(\"\") -> returns 0\ns is now: \"\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "sq_mixed_only",
+      "description": "str_squeeze: spaces and tabs around one character",
+      "args": [],
+      "stdin": "squeeze\n \\t a \\t \n",
+      "expected": "str_squeeze(\" \\t a \\t \") -> returns 1\ns is now: \"a\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "squeeze_newline",
+      "description": "str_squeeze: '\\n' is not whitespace here",
+      "args": [],
+      "stdin": "squeeze\na  \\n  b\n",
+      "expected": "str_squeeze(\"a  \\n  b\") -> returns 5\ns is now: \"a \\n b\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "sq_single_char",
+      "description": "str_squeeze: a single character is unchanged",
+      "args": [],
+      "stdin": "squeeze\nx\n",
+      "expected": "str_squeeze(\"x\") -> returns 1\ns is now: \"x\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "sq_tab_only",
+      "description": "str_squeeze: a single tab becomes empty",
+      "args": [],
+      "stdin": "squeeze\n\\t\n",
+      "expected": "str_squeeze(\"\\t\") -> returns 0\ns is now: \"\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "sq_leading_only",
+      "description": "str_squeeze: only leading whitespace",
+      "args": [],
+      "stdin": "squeeze\n   abc\n",
+      "expected": "str_squeeze(\"   abc\") -> returns 3\ns is now: \"abc\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "sq_trailing_only",
+      "description": "str_squeeze: only trailing whitespace",
+      "args": [],
+      "stdin": "squeeze\nabc \\t \n",
+      "expected": "str_squeeze(\"abc \\t \") -> returns 3\ns is now: \"abc\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "sq_singles",
+      "description": "str_squeeze: single spaces between words are kept",
+      "args": [],
+      "stdin": "squeeze\na b c\n",
+      "expected": "str_squeeze(\"a b c\") -> returns 5\ns is now: \"a b c\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "sq_tab_between",
+      "description": "str_squeeze: a single tab between words becomes a space",
+      "args": [],
+      "stdin": "squeeze\na\\tb\n",
+      "expected": "str_squeeze(\"a\\tb\") -> returns 3\ns is now: \"a b\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "sq_newlines_kept",
+      "description": "str_squeeze: newlines at the ends are kept",
+      "args": [],
+      "stdin": "squeeze\n\\nabc\\n\n",
+      "expected": "str_squeeze(\"\\nabc\\n\") -> returns 5\ns is now: \"\\nabc\\n\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "sq_many_words",
+      "description": "str_squeeze: several words with mixed runs",
+      "args": [],
+      "stdin": "squeeze\n  the  quick\\t\\tbrown \\t fox  \n",
+      "expected": "str_squeeze(\"  the  quick\\t\\tbrown \\t fox  \") -> returns 19\ns is now: \"the quick brown fox\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "sq_long",
+      "description": "str_squeeze: a long run of whitespace",
+      "args": [],
+      "stdin": "squeeze\na                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        b\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\n",
+      "expected": "str_squeeze(\"a                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        b\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\") -> returns 3\ns is now: \"a b\"\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "split_basic",
+      "description": "str_split: splits three fields",
+      "args": [],
+      "stdin": "split\nred,green,blue\n,\n5\n",
+      "expected": "str_split(\"red,green,blue\", ',', fields, 5) -> returns 3\nbuffer is now: \"red\\0green\\0blue\\0\"\nfields[0]: \"red\"\nfields[1]: \"green\"\nfields[2]: \"blue\"\nfields[3]: (untouched)\nfields[4]: (untouched)\nfields[5]: (untouched)\nfields[6]: (untouched)\nfields[7]: (untouched)\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "split_empty_fields",
+      "description": "str_split: consecutive delimiters make an empty field",
+      "args": [],
+      "stdin": "split\na,,b\n,\n5\n",
+      "expected": "str_split(\"a,,b\", ',', fields, 5) -> returns 3\nbuffer is now: \"a\\0\\0b\\0\"\nfields[0]: \"a\"\nfields[1]: \"\"\nfields[2]: \"b\"\nfields[3]: (untouched)\nfields[4]: (untouched)\nfields[5]: (untouched)\nfields[6]: (untouched)\nfields[7]: (untouched)\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "split_edges",
+      "description": "str_split: delimiters at both ends make empty fields",
+      "args": [],
+      "stdin": "split\n,a,\n,\n5\n",
+      "expected": "str_split(\",a,\", ',', fields, 5) -> returns 3\nbuffer is now: \"\\0a\\0\\0\"\nfields[0]: \"\"\nfields[1]: \"a\"\nfields[2]: \"\"\nfields[3]: (untouched)\nfields[4]: (untouched)\nfields[5]: (untouched)\nfields[6]: (untouched)\nfields[7]: (untouched)\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "split_overflow",
+      "description": "str_split: more fields than max_fields",
+      "args": [],
+      "stdin": "split\nw,x,y,z\n,\n2\n",
+      "expected": "str_split(\"w,x,y,z\", ',', fields, 2) -> returns 4\nbuffer is now: \"w\\0x\\0y\\0z\\0\"\nfields[0]: \"w\"\nfields[1]: \"x\"\nfields[2]: (untouched)\nfields[3]: (untouched)\nfields[4]: (untouched)\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "split_no_delim",
+      "description": "str_split: a string with no delimiter is one field",
+      "args": [],
+      "stdin": "split\nno delimiters\n,\n5\n",
+      "expected": "str_split(\"no delimiters\", ',', fields, 5) -> returns 1\nbuffer is now: \"no delimiters\\0\"\nfields[0]: \"no delimiters\"\nfields[1]: (untouched)\nfields[2]: (untouched)\nfields[3]: (untouched)\nfields[4]: (untouched)\nfields[5]: (untouched)\nfields[6]: (untouched)\nfields[7]: (untouched)\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "split_empty_string",
+      "description": "str_split: the empty string is one empty field",
+      "args": [],
+      "stdin": "split\n\n,\n5\n",
+      "expected": "str_split(\"\", ',', fields, 5) -> returns 1\nbuffer is now: \"\\0\"\nfields[0]: \"\"\nfields[1]: (untouched)\nfields[2]: (untouched)\nfields[3]: (untouched)\nfields[4]: (untouched)\nfields[5]: (untouched)\nfields[6]: (untouched)\nfields[7]: (untouched)\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "split_max_zero",
+      "description": "str_split: max_fields 0 stores nothing",
+      "args": [],
+      "stdin": "split\na,b\n,\n0\n",
+      "expected": "str_split(\"a,b\", ',', fields, 0) -> returns 2\nbuffer is now: \"a\\0b\\0\"\nfields[0]: (untouched)\nfields[1]: (untouched)\nfields[2]: (untouched)\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "split_only_delims",
+      "description": "str_split: only delimiters",
+      "args": [],
+      "stdin": "split\n,,,\n,\n5\n",
+      "expected": "str_split(\",,,\", ',', fields, 5) -> returns 4\nbuffer is now: \"\\0\\0\\0\\0\"\nfields[0]: \"\"\nfields[1]: \"\"\nfields[2]: \"\"\nfields[3]: \"\"\nfields[4]: (untouched)\nfields[5]: (untouched)\nfields[6]: (untouched)\nfields[7]: (untouched)\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "split_single_delim",
+      "description": "str_split: a single delimiter makes two empty fields",
+      "args": [],
+      "stdin": "split\n,\n,\n5\n",
+      "expected": "str_split(\",\", ',', fields, 5) -> returns 2\nbuffer is now: \"\\0\\0\"\nfields[0]: \"\"\nfields[1]: \"\"\nfields[2]: (untouched)\nfields[3]: (untouched)\nfields[4]: (untouched)\nfields[5]: (untouched)\nfields[6]: (untouched)\nfields[7]: (untouched)\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "split_exact_max",
+      "description": "str_split: exactly max_fields fields",
+      "args": [],
+      "stdin": "split\na,b,c\n,\n3\n",
+      "expected": "str_split(\"a,b,c\", ',', fields, 3) -> returns 3\nbuffer is now: \"a\\0b\\0c\\0\"\nfields[0]: \"a\"\nfields[1]: \"b\"\nfields[2]: \"c\"\nfields[3]: (untouched)\nfields[4]: (untouched)\nfields[5]: (untouched)\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "split_max_one",
+      "description": "str_split: max_fields 1",
+      "args": [],
+      "stdin": "split\nx,y\n,\n1\n",
+      "expected": "str_split(\"x,y\", ',', fields, 1) -> returns 2\nbuffer is now: \"x\\0y\\0\"\nfields[0]: \"x\"\nfields[1]: (untouched)\nfields[2]: (untouched)\nfields[3]: (untouched)\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "split_space",
+      "description": "str_split: a space as the delimiter",
+      "args": [],
+      "stdin": "split\na b c\n \n5\n",
+      "expected": "str_split(\"a b c\", ' ', fields, 5) -> returns 3\nbuffer is now: \"a\\0b\\0c\\0\"\nfields[0]: \"a\"\nfields[1]: \"b\"\nfields[2]: \"c\"\nfields[3]: (untouched)\nfields[4]: (untouched)\nfields[5]: (untouched)\nfields[6]: (untouched)\nfields[7]: (untouched)\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "split_space_runs",
+      "description": "str_split: repeated space delimiters",
+      "args": [],
+      "stdin": "split\na  b\n \n5\n",
+      "expected": "str_split(\"a  b\", ' ', fields, 5) -> returns 3\nbuffer is now: \"a\\0\\0b\\0\"\nfields[0]: \"a\"\nfields[1]: \"\"\nfields[2]: \"b\"\nfields[3]: (untouched)\nfields[4]: (untouched)\nfields[5]: (untouched)\nfields[6]: (untouched)\nfields[7]: (untouched)\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "split_tab",
+      "description": "str_split: a tab as the delimiter",
+      "args": [],
+      "stdin": "split\na\\tb\\t\\tc\n\\t\n5\n",
+      "expected": "str_split(\"a\\tb\\t\\tc\", '\\t', fields, 5) -> returns 4\nbuffer is now: \"a\\0b\\0\\0c\\0\"\nfields[0]: \"a\"\nfields[1]: \"b\"\nfields[2]: \"\"\nfields[3]: \"c\"\nfields[4]: (untouched)\nfields[5]: (untouched)\nfields[6]: (untouched)\nfields[7]: (untouched)\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "split_other_delim",
+      "description": "str_split: commas are ordinary when the delimiter is another character",
+      "args": [],
+      "stdin": "split\na,b;c\n;\n5\n",
+      "expected": "str_split(\"a,b;c\", ';', fields, 5) -> returns 2\nbuffer is now: \"a,b\\0c\\0\"\nfields[0]: \"a,b\"\nfields[1]: \"c\"\nfields[2]: (untouched)\nfields[3]: (untouched)\nfields[4]: (untouched)\nfields[5]: (untouched)\nfields[6]: (untouched)\nfields[7]: (untouched)\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    },
+    {
+      "id": "split_many",
+      "description": "str_split: many fields, few stored",
+      "args": [],
+      "stdin": "split\na:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t\n:\n4\n",
+      "expected": "str_split(\"a:b:c:d:e:f:g:h:i:j:k:l:m:n:o:p:q:r:s:t\", ':', fields, 4) -> returns 20\nbuffer is now: \"a\\0b\\0c\\0d\\0e\\0f\\0g\\0h\\0i\\0j\\0k\\0l\\0m\\0n\\0o\\0p\\0q\\0r\\0s\\0t\\0\"\nfields[0]: \"a\"\nfields[1]: \"b\"\nfields[2]: \"c\"\nfields[3]: \"d\"\nfields[4]: (untouched)\nfields[5]: (untouched)\nfields[6]: (untouched)\n",
+      "expected_exit": 0,
+      "compare": "exact",
+      "compare_options": {
+        "abs_tol": null,
+        "rel_tol": null,
+        "decimals": "match"
+      },
+      "timeout": 6.0,
+      "hint": null
+    }
+  ]
+}
